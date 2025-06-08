@@ -1,0 +1,6 @@
+@OURVLEWebAPI_HostAddress = http://localhost:5064
+
+GET {{OURVLEWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
