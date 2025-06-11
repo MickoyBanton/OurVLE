@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OURVLEWebAPI\\OURVLEWebAPI.csproj": {}
+    "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OurVLE\\OURVLEWebAPI\\OURVLEWebAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OURVLEWebAPI\\OURVLEWebAPI.csproj": {
+    "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OurVLE\\OURVLEWebAPI\\OURVLEWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OURVLEWebAPI\\OURVLEWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OurVLE\\OURVLEWebAPI\\OURVLEWebAPI.csproj",
         "projectName": "OURVLEWebAPI",
-        "projectPath": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OURVLEWebAPI\\OURVLEWebAPI.csproj",
+        "projectPath": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OurVLE\\OURVLEWebAPI\\OURVLEWebAPI.csproj",
         "packagesPath": "C:\\Users\\micko\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OURVLEWebAPI\\obj\\",
+        "outputPath": "C:\\Users\\micko\\OneDrive\\Desktop\\C# Tutorial\\OurVLE\\OURVLEWebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -53,6 +53,22 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             }
           },
           "imports": [
