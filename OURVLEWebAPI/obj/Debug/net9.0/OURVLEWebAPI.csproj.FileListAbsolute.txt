@@ -142,3 +142,11 @@ C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\obj\Debug\net9.0
 C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\obj\Debug\net9.0\OURVLEWebAPI.pdb
 C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\obj\Debug\net9.0\OURVLEWebAPI.genruntimeconfig.cache
 C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\obj\Debug\net9.0\ref\OURVLEWebAPI.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\micko\OneDrive\Desktop\C# Tutorial\OurVLE\OURVLEWebAPI\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

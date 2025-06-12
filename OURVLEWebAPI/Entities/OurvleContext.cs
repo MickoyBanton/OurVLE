@@ -4,6 +4,8 @@ namespace OURVLEWebAPI.Entities;
 
 public partial class OurvleContext : DbContext
 {
+    internal object Account;
+
     public OurvleContext()
     {
     }
