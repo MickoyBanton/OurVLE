@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OURVLEWebAPI.Entities;
 
 public partial class Course
 {
-    public ulong CourseId { get; set; }
+    public ulong ?CourseId { get; set; }
 
-    public string CourseName { get; set; } = null!;
+    [Required]
+    public string ?CourseName { get; set; } = null!;
 
     public virtual ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
 
