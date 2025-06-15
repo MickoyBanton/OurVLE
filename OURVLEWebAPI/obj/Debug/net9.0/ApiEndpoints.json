@@ -73,6 +73,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetCourse",
+    "RelativePath": "Lecturer/course",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Lecturer",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
     "Method": "AddStudent",
     "RelativePath": "Student",
