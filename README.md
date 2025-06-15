@@ -102,7 +102,7 @@
       Update the connection string in appsettings.json:
       ```bash
       "ConnectionStrings": {
-      "DefaultConnection": "server=localhost;database=ourvle_db;user=root;password=your_password;"
+      "DefaultConnection": "server=localhost;database=OURVLE;user=your_username;password=your_password;"
       }
       ```
 
