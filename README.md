@@ -96,24 +96,24 @@
    ```
 
 2. **Configure the Database**
-
-Create a database using schema.sql
-
-Update the connection string in appsettings.json:
-```bash
-"ConnectionStrings": {
-  "DefaultConnection": "server=localhost;database=ourvle_db;user=root;password=your_password;"
-}
-```
+      
+      Create a database using schema.sql
+      
+      Update the connection string in appsettings.json:
+      ```bash
+      "ConnectionStrings": {
+      "DefaultConnection": "server=localhost;database=ourvle_db;user=root;password=your_password;"
+      }
+      ```
 
 
 3. **Execute the SQL files**
     
-    Insert data into the database using the insert.sql
+      Insert data into the database using the insert.sql
 
-4. Build and Run the Application
-   ```bash
-   dotnet build
-   dotnet run
-   ```
+4. **Build and Run the Application**
+      ```bash
+      dotnet build
+      dotnet run
+      ```
 5. Test API with Postman
