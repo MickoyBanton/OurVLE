@@ -115,7 +115,7 @@ namespace OURVLEWebAPI.Controllers
 
 
         [HttpGet("course")]
-        public async Task<ActionResult<Student>> GetCourse()
+        public async Task<ActionResult<Course>> GetCourse()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 

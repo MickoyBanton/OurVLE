@@ -73,6 +73,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
+    "Method": "GetCourse",
+    "RelativePath": "Courses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Course",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "GetCourse",
     "RelativePath": "Lecturer/course",
@@ -82,7 +102,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "OURVLEWebAPI.Entities.Lecturer",
+        "Type": "OURVLEWebAPI.Entities.Course",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -154,7 +174,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "OURVLEWebAPI.Entities.Student",
+        "Type": "OURVLEWebAPI.Entities.Course",
         "MediaTypes": [
           "text/plain",
           "application/json",

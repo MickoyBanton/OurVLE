@@ -15,7 +15,7 @@ namespace OURVLEWebAPI.Controllers
         private readonly OurvleContext _context = context;
 
         [HttpGet("course")]
-        public async Task<ActionResult<Lecturer>> GetCourse()
+        public async Task<ActionResult<Course>> GetCourse()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -29,7 +29,7 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest("Invalid user ID.");
             }
 
-            // Get the student with courses included
+            // Get the lecturer with courses included
             var lecturer = await _context.Lecturers.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
 
 
@@ -40,7 +40,7 @@ namespace OURVLEWebAPI.Controllers
 
             var course = lecturer.Courses.Select(c => c.CourseName).ToList();
 
-            // Return student's Courses
+            // Return lecturer's Courses
             return Ok(course);
         }
     }
