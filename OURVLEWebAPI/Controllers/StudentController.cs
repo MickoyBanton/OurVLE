@@ -114,6 +114,37 @@ namespace OURVLEWebAPI.Controllers
         }
 
 
+        [HttpGet("course")]
+        public async Task<ActionResult<Student>> GetCourse()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            // Get the student with courses included
+            var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
+
+
+            if (student == null)
+            {
+                return NotFound("Student not found.");
+            }
+
+            var course = student.Courses.Select(c => c.CourseName).ToList();
+
+            // Return student's Courses
+            return Ok(course);
+        }
+
+
 
     }
 }

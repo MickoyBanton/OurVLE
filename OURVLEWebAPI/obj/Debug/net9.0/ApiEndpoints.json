@@ -126,6 +126,26 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
+    "Method": "GetCourse",
+    "RelativePath": "Student/course",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Student",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
     "Method": "RegisterCourse",
     "RelativePath": "Student/course/{courseId}",
     "HttpMethod": "POST",
