@@ -79,10 +79,41 @@
 
 ---
 
-### 📊 Reports (SQL Views)
+## 🚀 How to Run the Program
 
-- Courses with ≥50 students  
-- Students enrolled in ≥5 courses  
-- Lecturers teaching ≥3 courses  
-- Top 10 most enrolled courses  
-- Top 10 students by overall average
+### 📦 Prerequisites
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download)
+- MySQL
+- Postman (for API testing)
+- Git
+
+### 📁 Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/MickoyBanton/OurVLE
+   cd OurVLE
+   ```
+
+2. **Configure the Database**
+
+Create a database using schema.sql
+
+Update the connection string in appsettings.json:
+```bash
+"ConnectionStrings": {
+  "DefaultConnection": "server=localhost;database=ourvle_db;user=root;password=your_password;"
+}
+```
+
+
+3. **Execute the SQL files**
+    
+    Insert data into the database using the insert.sql
+
+4. Build and Run the Application
+   ```bash
+   dotnet build
+   dotnet run
+   ```
+5. Test API with Postman
