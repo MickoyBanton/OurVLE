@@ -93,6 +93,22 @@
     ]
   },
   {
+    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
+    "Method": "GetMember",
+    "RelativePath": "Courses/member/{courseId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "GetCourse",
     "RelativePath": "Lecturer/course",

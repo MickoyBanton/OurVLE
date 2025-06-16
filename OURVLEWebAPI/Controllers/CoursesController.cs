@@ -21,15 +21,46 @@ namespace OURVLEWebAPI.Controllers
             // Get the student with courses included
             var courses = await _context.Courses.ToListAsync();
 
-            /*
-            if (courses == null)
+            
+            if (courses.Count == 0)
             {
                 return NotFound("Courses not found.");
-            }*/
+            }
 
 
             // Return Courses
             return Ok(courses);
+        }
+
+
+        [HttpGet("member/{courseId}")]
+
+        public async Task<ActionResult> GetMember(ulong courseId)
+        {
+            //Get course with student included
+
+            var courseStudent = await _context.Courses.Include(c => c.Users).FirstOrDefaultAsync(c => c.CourseId == courseId);
+
+            if (courseStudent == null)
+            {
+                return NotFound("Course not found");
+            }
+
+            var courseLecturer = await _context.Courses.Include(c => c.UsersNavigation).FirstOrDefaultAsync(c => c.CourseId == courseId);
+
+            if(courseLecturer == null)
+            {
+                return NotFound("Course not found");
+            }
+
+
+            var student = courseStudent.Users.Select(s => new { s.FirstName, s.LastName}).ToList();
+            var lecturer = courseLecturer.UsersNavigation.Select(s => new { s.FirstName, s.LastName }).ToList();
+
+            return Ok(new { student, lecturer });
+
+
+
         }
     }
 }
