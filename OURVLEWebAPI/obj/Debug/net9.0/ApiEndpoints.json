@@ -136,6 +136,58 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetCalendarEvent",
+    "RelativePath": "Lecturer",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Calendarevent",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "CreateCalenderEvent",
+    "RelativePath": "Lecturer/calendar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newCalenderEvent",
+        "Type": "OURVLEWebAPI.Entities.Calendarevent",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Calendarevent",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "GetCourse",
     "RelativePath": "Lecturer/course",
     "HttpMethod": "GET",

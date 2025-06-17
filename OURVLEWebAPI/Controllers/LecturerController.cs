@@ -14,6 +14,19 @@ namespace OURVLEWebAPI.Controllers
     {
         private readonly OurvleContext _context = context;
 
+        public async Task<ActionResult<Calendarevent>> GetCalendarEvent(ulong courseId)
+        {
+            var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync(); ;
+
+            if (calenderEvent.Count == 0)
+            {
+                return NotFound("Calendar events not found");
+            }
+
+            return Ok(calenderEvent);
+
+        }
+
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
@@ -42,6 +55,34 @@ namespace OURVLEWebAPI.Controllers
 
             // Return lecturer's Courses
             return Ok(course);
+        }
+
+        [HttpPost("calendar")]
+
+        public async Task<ActionResult<Calendarevent>> CreateCalenderEvent(Calendarevent newCalenderEvent)
+        {
+            if (newCalenderEvent == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _context.Calendarevents.Add(newCalenderEvent);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return CreatedAtAction(nameof(GetCalendarEvent), new { id = newCalenderEvent.EventId }, newCalenderEvent);
+
         }
     }
 }
