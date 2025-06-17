@@ -59,7 +59,8 @@ namespace OURVLEWebAPI.Controllers
 
         [HttpPost("calendar")]
 
-        public async Task<ActionResult<Calendarevent>> CreateCalenderEvent(Calendarevent newCalenderEvent)
+        public async Task<ActionResult<Calendarevent>> CreateCalenderEvent([FromBody] Calendarevent newCalenderEvent)
+
         {
             if (newCalenderEvent == null)
             {

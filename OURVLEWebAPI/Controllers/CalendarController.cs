@@ -26,5 +26,12 @@ namespace OURVLEWebAPI.Controllers
             return Ok(calenderEvent);
 
         }
+        /*
+        [HttpGet("date/{date}")]
+
+        public async Task<ActionResult<Calendarevent>> GetCalendarEventByDate(DateTime date)
+        {
+            var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync(); ;
+        } */
     }
 }
