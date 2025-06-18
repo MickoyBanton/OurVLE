@@ -9,14 +9,14 @@ using System.Security.Claims;
 
 namespace OURVLEWebAPI.Controllers
 {
-    [Authorize (Roles= "student")]
+    [Authorize(Roles = "student")]
     [ApiController]
     [Route("[controller]")]
 
     public class StudentController(OurvleContext context) : ControllerBase
     {
         private readonly OurvleContext _context = context;
-        
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
@@ -28,7 +28,7 @@ namespace OURVLEWebAPI.Controllers
             {
                 return NotFound();
             }
-            
+
             return Ok(student);
         }
 
@@ -145,6 +145,41 @@ namespace OURVLEWebAPI.Controllers
         }
 
 
+        [HttpGet("date/{date}")]
 
+        public async Task<ActionResult<Calendarevent>> GetCalendarEventByDate(DateTime date)
+        {
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            var events = await _context.Calendarevents
+                .Where(e => e.DueDate.HasValue && e.DueDate.Value.Date == date.Date)
+                .Where(e => e.Course!.Users.Any(s => s.UserId == userId))
+                .Select(e => new
+                {
+                  e.EventId,
+                  e.DueDate,
+                  e.Title
+                })
+                .ToListAsync();
+
+            if (events.Count == 0)
+            {
+                return NotFound("No calendar events found for this student on this date.");
+            }
+
+            return Ok(events);
+
+        }
     }
 }
