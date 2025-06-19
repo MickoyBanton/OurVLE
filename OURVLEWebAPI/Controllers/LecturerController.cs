@@ -16,7 +16,7 @@ namespace OURVLEWebAPI.Controllers
 
         public async Task<ActionResult<Calendarevent>> GetCalendarEvent(ulong courseId)
         {
-            var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync(); ;
+            var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync();
 
             if (calenderEvent.Count == 0)
             {
@@ -24,6 +24,19 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return Ok(calenderEvent);
+
+        }
+
+        public async Task<ActionResult<Section>> GetCreatedSection(int courseId)
+        {
+            var section = await _context.Sections.Where(s => s.CourseId == courseId).ToListAsync();
+
+            if (section.Count == 0)
+            {
+                return NotFound("Calendar events not found");
+            }
+
+            return Ok(section);
 
         }
 
@@ -83,6 +96,38 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return CreatedAtAction(nameof(GetCalendarEvent), new { id = newCalenderEvent.EventId }, newCalenderEvent);
+
+        }
+
+        [HttpPost("section")]
+
+        public async Task<ActionResult<Section>> AddSection(Section newSection)
+        {
+
+            if (newSection == null)
+            {
+                return NotFound();
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+
+            }
+
+            try
+            {
+                _context.Sections.Add(newSection);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            return CreatedAtAction(nameof(GetCreatedSection), new { id = newSection.CourseId }, newSection);
 
         }
     }

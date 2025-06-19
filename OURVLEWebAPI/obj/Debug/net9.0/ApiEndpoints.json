@@ -162,6 +162,32 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetCreatedSection",
+    "RelativePath": "Lecturer",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Section",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "CreateCalenderEvent",
     "RelativePath": "Lecturer/calendar",
     "HttpMethod": "POST",
@@ -197,6 +223,32 @@
     "ReturnTypes": [
       {
         "Type": "OURVLEWebAPI.Entities.Course",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "AddSection",
+    "RelativePath": "Lecturer/section",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newSection",
+        "Type": "OURVLEWebAPI.Entities.Section",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Section",
         "MediaTypes": [
           "text/plain",
           "application/json",
