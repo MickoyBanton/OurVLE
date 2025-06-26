@@ -188,6 +188,32 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetCreatedSectionItem",
+    "RelativePath": "Lecturer",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SectionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Sectionitem",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "CreateCalenderEvent",
     "RelativePath": "Lecturer/calendar",
     "HttpMethod": "POST",
@@ -249,6 +275,72 @@
     "ReturnTypes": [
       {
         "Type": "OURVLEWebAPI.Entities.Section",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "AddSectionitem",
+    "RelativePath": "Lecturer/section/item",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ItemId",
+        "Type": "System.UInt64",
+        "IsRequired": false
+      },
+      {
+        "Name": "SectionId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "SectionItem",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Section.SectionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Section.CourseId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Section.SectionName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Section.Sectionitems",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Sectionitem, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Sectionitem",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -40,6 +40,19 @@ namespace OURVLEWebAPI.Controllers
 
         }
 
+        public async Task<ActionResult<Sectionitem>> GetCreatedSectionItem(int SectionId)
+        {
+            var sectionItem = await _context.Sectionitems.Where(ce => ce.SectionId == SectionId).ToListAsync();
+
+            if (sectionItem.Count == 0)
+            {
+                return NotFound("Section item not found");
+            }
+
+            return Ok(sectionItem);
+
+        }
+
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
@@ -132,52 +145,68 @@ namespace OURVLEWebAPI.Controllers
 
         [HttpPost("section/item")]
 
-        public async Task <ActionResult<Sectionitem>> AddSectionitem ([FromForm] Sectionitem newSectionItem, IFormFile file)
+        public async Task<ActionResult<Sectionitem>> AddSectionitem([FromForm] Sectionitem newSectionItem, IFormFile file)
         {
+
             if (newSectionItem == null)
             {
-                return NotFound();
+                return BadRequest("Invalid section item.");
             }
+                
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+                
 
+            // Save metadata first to get the generated ItemId
             try
             {
                 _context.Sectionitems.Add(newSectionItem);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(); // This sets newSectionItem.ItemId
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Failed to save section item: " + ex.Message);
             }
 
             if (file == null || file.Length == 0)
+            {
                 return BadRequest("No file uploaded.");
+            }
+                
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-            if (!Directory.Exists(uploadsFolder))
-                Directory.CreateDirectory(uploadsFolder);
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); // unique file name
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+                
+
+            var fileName = $"{newSectionItem.ItemId}{Path.GetExtension(file.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await file.CopyToAsync(stream);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+            }
+            catch (Exception fileEx)
+            {
+                // Rollback the DB insert if file saving fails
+                _context.Sectionitems.Remove(newSectionItem);
+                await _context.SaveChangesAsync();
+
+                return BadRequest("File upload failed. Item deleted from database: " + fileEx.Message);
             }
 
-            return Ok(new
-            {
-                message = "Upload successful",
-                item = newSectionItem
-            });
-
-
-
-
+            return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
         }
     }
+
 }
