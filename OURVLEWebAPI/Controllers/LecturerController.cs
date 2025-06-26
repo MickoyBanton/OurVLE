@@ -113,7 +113,6 @@ namespace OURVLEWebAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-
             }
 
             try
@@ -128,6 +127,56 @@ namespace OURVLEWebAPI.Controllers
 
 
             return CreatedAtAction(nameof(GetCreatedSection), new { id = newSection.CourseId }, newSection);
+
+        }
+
+        [HttpPost("section/item")]
+
+        public async Task <ActionResult<Sectionitem>> AddSectionitem ([FromForm] Sectionitem newSectionItem, IFormFile file)
+        {
+            if (newSectionItem == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _context.Sectionitems.Add(newSectionItem);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); // unique file name
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(new
+            {
+                message = "Upload successful",
+                item = newSectionItem
+            });
+
+
+
 
         }
     }
