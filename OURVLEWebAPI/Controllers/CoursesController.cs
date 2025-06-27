@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OURVLEWebAPI.Entities;
+using System.Linq;
 using System.Security.Claims;
 
 namespace OURVLEWebAPI.Controllers
@@ -62,5 +63,28 @@ namespace OURVLEWebAPI.Controllers
 
 
         }
+
+        [HttpGet("{courseId}/sectionitems")]
+        public async Task<ActionResult<IEnumerable<Sectionitem>>> GetSectionItemsByCourse(int courseId)
+        {
+            // Get all section IDs for this course
+            var sectionIds = await _context.Sections
+                .Where(s => s.CourseId == courseId)
+                .Select(s => s.SectionId)
+                .ToListAsync();
+
+            // Get all section items that belong to those sections
+            var sectionItems = await _context.Sectionitems
+                .Where(si => sectionIds.Contains(si.SectionId.Value))
+                .ToListAsync();
+
+            if (sectionItems == null || !sectionItems.Any())
+            {
+                return NotFound("No section items found for this course.");
+            }
+                
+            return Ok(sectionItems);
+        }
+
     }
 }
