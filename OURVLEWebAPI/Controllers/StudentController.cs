@@ -145,7 +145,7 @@ namespace OURVLEWebAPI.Controllers
         }
 
 
-        [HttpGet("date/{date}")]
+        [HttpGet("calendar/{date}")]
 
         public async Task<ActionResult<Calendarevent>> GetCalendarEventByDate(DateTime date)
         {
@@ -180,6 +180,96 @@ namespace OURVLEWebAPI.Controllers
 
             return Ok(events);
 
+        }
+
+        [HttpPost("assignment")]
+
+        public async Task<ActionResult<Assignment>> SubmitAssignment([FromForm] Submitassignment newAssignment, IFormFile file)
+        {
+            if (newAssignment == null)
+            {
+                return BadRequest("Invalid section item.");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            // Get the student with courses included
+            var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
+
+
+            if (student == null)
+            {
+                return NotFound("Student not found.");
+            }
+
+            newAssignment.UserId = userId;
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            // Save metadata first to get the generated ItemId
+            try
+            {
+                _context.Submitassignments.Add(newAssignment);
+                await _context.SaveChangesAsync(); // This sets newSectionItem.ItemId
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Failed to save section item: " + ex.Message);
+            }
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "SubmittedAssignment");
+
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            var fileName = $"{newAssignment.SubmissionId}{Path.GetExtension(file.FileName)}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            try
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+            }
+            catch (Exception fileEx)
+            {
+                // Rollback the DB insert if file saving fails
+                _context.Submitassignments.Remove(newAssignment);
+                await _context.SaveChangesAsync();
+
+                return BadRequest("File upload failed. Item deleted from database: " + fileEx.Message);
+            }
+
+            return Ok(new Submitassignment
+            {
+                SubmissionId = newAssignment.SubmissionId,
+                AssignmentId = newAssignment.AssignmentId,
+                UserId = newAssignment.UserId,
+                SubmissionDate = newAssignment.SubmissionDate
+            });
         }
     }
 }

@@ -173,7 +173,11 @@ namespace OURVLEWebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-                
+
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
 
             // Save metadata first to get the generated ItemId
             try
@@ -184,11 +188,6 @@ namespace OURVLEWebAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Failed to save section item: " + ex.Message);
-            }
-
-            if (file == null || file.Length == 0)
-            {
-                return BadRequest("No file uploaded.");
             }
                 
 

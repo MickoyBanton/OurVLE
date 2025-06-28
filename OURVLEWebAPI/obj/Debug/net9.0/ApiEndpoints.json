@@ -482,6 +482,293 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
+    "Method": "SubmitAssignment",
+    "RelativePath": "Student/assignment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SubmissionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "UserId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "AssignmentId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "SubmissionDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.AssignmentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.CourseId",
+        "Type": "System.Nullable\u00601[[System.UInt64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.AssignmentTitle",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Date",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.CourseId",
+        "Type": "System.Nullable\u00601[[System.UInt64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.CourseName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.Assignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Assignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.Calendarevents",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Calendarevent, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.Discussionforums",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Discussionforum, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.Users",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Student, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Course.UsersNavigation",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Lecturer, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Assignment.Submitassignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Submitassignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.SubmissionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Grade",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.SubmissionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.UserId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.AssignmentId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.SubmissionDate",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.AssignmentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.CourseId",
+        "Type": "System.Nullable\u00601[[System.UInt64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.AssignmentTitle",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Date",
+        "Type": "System.Nullable\u00601[[System.DateTime, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.CourseId",
+        "Type": "System.Nullable\u00601[[System.UInt64, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.CourseName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.Assignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Assignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.Calendarevents",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Calendarevent, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.Discussionforums",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Discussionforum, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.Users",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Student, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Course.UsersNavigation",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Lecturer, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Assignment.Submitassignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Submitassignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Grading.SubmissionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Grading.Grade",
+        "Type": "System.Nullable\u00601[[System.Decimal, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.Grading.Submission",
+        "Type": "OURVLEWebAPI.Entities.Submitassignment",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.User.UserId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.User.FirstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.User.LastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.User.Submitassignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Submitassignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "Grading.Submission.User.Courses",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Course, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.UserId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.FirstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.LastName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.Submitassignments",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Submitassignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "User.Courses",
+        "Type": "System.Collections.Generic.ICollection\u00601[[OURVLEWebAPI.Entities.Course, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Assignment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
+    "Method": "GetCalendarEventByDate",
+    "RelativePath": "Student/calendar/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "date",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Calendarevent",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
     "Method": "GetCourse",
     "RelativePath": "Student/course",
     "HttpMethod": "GET",
@@ -517,32 +804,6 @@
     "ReturnTypes": [
       {
         "Type": "OURVLEWebAPI.Entities.Student",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
-    "Method": "GetCalendarEventByDate",
-    "RelativePath": "Student/date/{date}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "date",
-        "Type": "System.DateTime",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "OURVLEWebAPI.Entities.Calendarevent",
         "MediaTypes": [
           "text/plain",
           "application/json",
