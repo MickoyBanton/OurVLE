@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using OURVLEWebAPI.Entities;
 using System.Security.Claims;
 
+
 namespace OURVLEWebAPI.Controllers
 {
     [Authorize(Roles = "lecturer")]
@@ -53,6 +54,20 @@ namespace OURVLEWebAPI.Controllers
 
         }
 
+
+        public async Task<ActionResult<Assignment>> GetCreatedAssignment(int AssignmentId)
+        {
+            var assignment = await _context.Assignments.Where(a => a.AssignmentId == AssignmentId).ToListAsync();
+
+            if (assignment.Count == 0)
+            {
+                return NotFound("Assignment not found");
+            }
+
+            return Ok(assignment);
+        }
+
+
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
@@ -85,7 +100,7 @@ namespace OURVLEWebAPI.Controllers
 
         [HttpPost("calendar")]
 
-        public async Task<ActionResult<Calendarevent>> CreateCalenderEvent([FromBody] Calendarevent newCalenderEvent)
+        public async Task<ActionResult<Calendarevent>> AddCalenderEvent([FromBody] Calendarevent newCalenderEvent)
 
         {
             if (newCalenderEvent == null)
@@ -206,6 +221,35 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
+        }
+
+        [HttpPost ("assignment")]
+
+        public async Task<ActionResult<Assignment>> AddAssignment(Assignment newAssignment)
+        {
+            if (newAssignment == null)
+            {
+                return BadRequest("Invalid section item.");
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _context.Assignments.Add(newAssignment);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newAssignment.AssignmentId }, newAssignment);
+
         }
     }
 

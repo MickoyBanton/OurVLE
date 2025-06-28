@@ -120,6 +120,32 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
+    "Method": "GetSectionItemsByCourse",
+    "RelativePath": "Courses/{courseId}/sectionitems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[OURVLEWebAPI.Entities.Sectionitem, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
     "Method": "GetMember",
     "RelativePath": "Courses/member/{courseId}",
     "HttpMethod": "GET",
@@ -214,7 +240,59 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
-    "Method": "CreateCalenderEvent",
+    "Method": "GetCreatedAssignment",
+    "RelativePath": "Lecturer",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "AssignmentId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Assignment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "AddAssignment",
+    "RelativePath": "Lecturer/assignment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newAssignment",
+        "Type": "OURVLEWebAPI.Entities.Assignment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Assignment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "AddCalenderEvent",
     "RelativePath": "Lecturer/calendar",
     "HttpMethod": "POST",
     "IsController": true,
