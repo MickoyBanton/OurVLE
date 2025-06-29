@@ -67,6 +67,18 @@ namespace OURVLEWebAPI.Controllers
             return Ok(assignment);
         }
 
+        public async Task<ActionResult<Grading>> GetCreatedGrade(int SubmissionId)
+        {
+            var grade = await _context.Gradings.Where(a => a.SubmissionId == SubmissionId).ToListAsync();
+
+            if (grade.Count == 0)
+            {
+                return NotFound("Grade not found");
+            }
+
+            return Ok(grade);
+        }
+
 
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
@@ -228,7 +240,7 @@ namespace OURVLEWebAPI.Controllers
         {
             if (newAssignment == null)
             {
-                return BadRequest("Invalid section item.");
+                return BadRequest("Invalid assignment.");
             }
 
 
@@ -249,6 +261,31 @@ namespace OURVLEWebAPI.Controllers
 
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newAssignment.AssignmentId }, newAssignment);
 
+        }
+
+        [HttpPost ("assignment/grade")]
+        
+        public async Task<ActionResult<Grading>> AddGrade(Grading newGrading)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            try
+            {
+                _context.Gradings.Add(newGrading);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            return CreatedAtAction(nameof(GetCreatedGrade), new { submissionId = newGrading.SubmissionId }, newGrading);
         }
     }
 

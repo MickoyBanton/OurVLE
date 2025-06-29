@@ -266,6 +266,32 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetCreatedGrade",
+    "RelativePath": "Lecturer",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "SubmissionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Grading",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "AddAssignment",
     "RelativePath": "Lecturer/assignment",
     "HttpMethod": "POST",
@@ -281,6 +307,32 @@
     "ReturnTypes": [
       {
         "Type": "OURVLEWebAPI.Entities.Assignment",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "AddGrade",
+    "RelativePath": "Lecturer/assignment/grade",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newGrading",
+        "Type": "OURVLEWebAPI.Entities.Grading",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "OURVLEWebAPI.Entities.Grading",
         "MediaTypes": [
           "text/plain",
           "application/json",
