@@ -18,11 +18,23 @@ namespace OURVLEWebAPI.Controllers
         private readonly OurvleContext _context = context;
 
 
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return claim != null && int.TryParse(claim.Value, out userId);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            var student = await _context.Students.FindAsync(userIdClaim);
+            if (!TryGetUserId(out int userId))
+            {
+                return BadRequest("Invalid user.");
+            }
+
+            var student = await _context.Students.FindAsync(userId);
 
             if (student == null)
             {
@@ -63,17 +75,11 @@ namespace OURVLEWebAPI.Controllers
         [HttpPost("course/{courseId}")]
         public async Task<ActionResult<Student>> RegisterCourse(ulong courseId)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
+            if (!TryGetUserId(out int userId))
             {
-                return NotFound("User not found.");
+                return BadRequest("Invalid user.");
             }
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return BadRequest("Invalid user ID.");
-            }
-
+                
             // Get the student with courses included
             var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
 
@@ -117,16 +123,9 @@ namespace OURVLEWebAPI.Controllers
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
+            if (!TryGetUserId(out int userId))
             {
-                return NotFound("User not found.");
-            }
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return BadRequest("Invalid user ID.");
+                return BadRequest("Invalid user.");
             }
 
             // Get the student with courses included
@@ -150,16 +149,9 @@ namespace OURVLEWebAPI.Controllers
         public async Task<ActionResult<Calendarevent>> GetCalendarEventByDate(DateTime date)
         {
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
+            if (!TryGetUserId(out int userId))
             {
-                return NotFound("User not found.");
-            }
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return BadRequest("Invalid user ID.");
+                return BadRequest("Invalid user.");
             }
 
             var events = await _context.Calendarevents
@@ -188,7 +180,7 @@ namespace OURVLEWebAPI.Controllers
         {
             if (newAssignment == null)
             {
-                return BadRequest("Invalid section item.");
+                return BadRequest("Invalid Submit Assignment");
             }
 
 
@@ -197,16 +189,9 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
+            if (!TryGetUserId(out int userId))
             {
-                return NotFound("User not found.");
-            }
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return BadRequest("Invalid user ID.");
+                return BadRequest("Invalid user.");
             }
 
             // Get the student with courses included

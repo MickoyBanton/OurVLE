@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OURVLEWebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9043c0084a9a66cdb256620e0c5895aef71fafca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81bde813601deaaedbdb3f105f2a02c051208ea3")]
 [assembly: System.Reflection.AssemblyProductAttribute("OURVLEWebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OURVLEWebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
