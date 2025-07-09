@@ -15,6 +15,13 @@ namespace OURVLEWebAPI.Controllers
     {
         private readonly OurvleContext _context = context;
 
+        private bool TryGetUserId(out int userId)
+        {
+            userId = 0;
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            return claim != null && int.TryParse(claim.Value, out userId);
+        }
+
         public async Task<ActionResult<Calendarevent>> GetCalendarEvent(ulong courseId)
         {
             var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync();
@@ -83,16 +90,10 @@ namespace OURVLEWebAPI.Controllers
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
-            if (userIdClaim == null)
+            if (!TryGetUserId(out int userId))
             {
-                return NotFound("User not found.");
-            }
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return BadRequest("Invalid user ID.");
+                return BadRequest("Invalid user.");
             }
 
             // Get the lecturer with courses included
