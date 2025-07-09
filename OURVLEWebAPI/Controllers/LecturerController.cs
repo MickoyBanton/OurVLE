@@ -22,6 +22,29 @@ namespace OURVLEWebAPI.Controllers
             return claim != null && int.TryParse(claim.Value, out userId);
         }
 
+        private async Task<bool> SaveFileAsync(IFormFile file, string folder, string fileName)
+        {
+            try
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), folder);
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using var stream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(stream);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<ActionResult<Calendarevent>> GetCalendarEvent(ulong courseId)
         {
             var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync();
@@ -204,32 +227,16 @@ namespace OURVLEWebAPI.Controllers
             }
                 
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
-
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-                
-
             var fileName = $"{newSectionItem.ItemId}{Path.GetExtension(file.FileName)}";
-            var filePath = Path.Combine(uploadsFolder, fileName);
+            string folderName = "Uploads";
 
-            try
-            {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+            var saved = await SaveFileAsync(file, folderName, fileName);
 
-            }
-            catch (Exception fileEx)
+            if (!saved)
             {
-                // Rollback the DB insert if file saving fails
                 _context.Sectionitems.Remove(newSectionItem);
                 await _context.SaveChangesAsync();
-
-                return BadRequest("File upload failed. Item deleted from database: " + fileEx.Message);
+                return BadRequest("File upload failed. Item deleted from database: ");
             }
 
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
