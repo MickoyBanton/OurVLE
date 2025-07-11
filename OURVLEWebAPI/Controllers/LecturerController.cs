@@ -170,7 +170,7 @@ namespace OURVLEWebAPI.Controllers
 
             if (newSection == null)
             {
-                return NotFound();
+                return BadRequest("Invalid section data.");
             }
 
 
@@ -236,7 +236,7 @@ namespace OURVLEWebAPI.Controllers
             {
                 _context.Sectionitems.Remove(newSectionItem);
                 await _context.SaveChangesAsync();
-                return BadRequest("File upload failed. Item deleted from database: ");
+                return BadRequest("File upload failed. Section item was removed.");
             }
 
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
