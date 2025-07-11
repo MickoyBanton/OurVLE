@@ -199,7 +199,7 @@ namespace OURVLEWebAPI.Controllers
 
         }
 
-        [HttpPost("assignment")]
+        [HttpPost("assignments/submit")]
 
         public async Task<ActionResult<Assignment>> SubmitAssignment([FromForm] Submitassignment newAssignment, IFormFile file)
         {
