@@ -257,6 +257,12 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (newAssignment.Date < DateTime.Today)
+            {
+                return BadRequest("Assignment date cannot be in the past.");
+            }
+
+
             try
             {
                 _context.Assignments.Add(newAssignment);
