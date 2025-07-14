@@ -32,7 +32,7 @@ namespace OURVLEWebAPI.Controllers
         {
             if (newCourse == null)
             {
-                return NotFound();
+                return BadRequest("Invalid course data entered");
             }
 
             if (!ModelState.IsValid)

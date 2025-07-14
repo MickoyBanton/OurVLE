@@ -74,7 +74,7 @@ namespace OURVLEWebAPI.Controllers
         {
             if (newStudent == null)
             {
-                return NotFound();
+                return BadRequest("Invalid student data.");
             }
 
             if (!ModelState.IsValid)

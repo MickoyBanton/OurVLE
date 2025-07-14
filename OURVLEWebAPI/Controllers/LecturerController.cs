@@ -141,7 +141,7 @@ namespace OURVLEWebAPI.Controllers
         {
             if (newCalenderEvent == null)
             {
-                return NotFound();
+                return BadRequest("Invalid calender data.");
             }
 
             if (!ModelState.IsValid)
@@ -286,7 +286,6 @@ namespace OURVLEWebAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
 
             try
             {
