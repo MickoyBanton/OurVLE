@@ -34,7 +34,7 @@ namespace OURVLEWebAPI.Controllers
         }
 
 
-        [HttpGet("member/{courseId}")]
+        [HttpGet("{courseId}/member")]
 
         public async Task<ActionResult> GetMember(ulong courseId)
         {
