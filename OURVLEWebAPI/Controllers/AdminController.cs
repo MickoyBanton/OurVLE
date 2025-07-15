@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OURVLEWebAPI.Entities;
 using System.Security.Claims;
 
@@ -40,6 +41,13 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
+            bool courseExists = await _context.Courses
+            .AnyAsync(c => c.CourseName.ToLower() == newCourse.CourseName.ToLower());
+
+            if (courseExists)
+            {
+                return Conflict("A course with this name already exists.");
+            }
             try
             {
                 _context.Courses.Add(newCourse);
