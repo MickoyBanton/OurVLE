@@ -6,18 +6,19 @@ using OURVLEWebAPI.Entities;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-
 namespace OURVLEWebAPI.Controllers
 {
+    // Only users with the role 'student' can access this controller
     [Authorize(Roles = "student")]
     [ApiController]
     [Route("[controller]")]
-
     public class StudentController(OurvleContext context) : ControllerBase
     {
         private readonly OurvleContext _context = context;
 
-
+        /// <summary>
+        /// Attempts to extract the user's ID from their authentication claims.
+        /// </summary>
         private bool TryGetUserId(out int userId)
         {
             userId = 0;
@@ -25,7 +26,9 @@ namespace OURVLEWebAPI.Controllers
             return claim != null && int.TryParse(claim.Value, out userId);
         }
 
-
+        /// <summary>
+        /// Saves an uploaded file to a specified folder with the given filename.
+        /// </summary>
         private async Task<bool> SaveFileAsync(IFormFile file, string folder, string fileName)
         {
             try
@@ -49,8 +52,9 @@ namespace OURVLEWebAPI.Controllers
             }
         }
 
-
-
+        /// <summary>
+        /// Retrieves student information based on the authenticated user ID.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
@@ -69,6 +73,9 @@ namespace OURVLEWebAPI.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Adds a new student to the system.
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<Student>> AddStudent(Student newStudent)
         {
@@ -92,11 +99,12 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ex.Message);
             }
 
-
             return CreatedAtAction(nameof(GetStudent), new { id = newStudent.UserId }, newStudent);
-
         }
 
+        /// <summary>
+        /// Allows a student to register for a course if they haven't already exceeded the course limit.
+        /// </summary>
         [HttpPost("course/{courseId}")]
         public async Task<ActionResult<Student>> RegisterCourse(ulong courseId)
         {
@@ -104,10 +112,9 @@ namespace OURVLEWebAPI.Controllers
             {
                 return BadRequest("Invalid user.");
             }
-                
-            // Get the student with courses included
-            var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
 
+            // Load student and their enrolled courses
+            var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
 
             if (student == null)
             {
@@ -125,16 +132,17 @@ namespace OURVLEWebAPI.Controllers
                 return NotFound("Course not found.");
             }
 
-            // Check if student already has the course to avoid duplicates
             try
             {
                 student.Courses.Add(course);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
-            { return BadRequest(ex.Message); }
+            {
+                return BadRequest(ex.Message);
+            }
 
-            // Return updated student info or some relevant response
+            // Return student info and updated courses
             return CreatedAtAction(nameof(GetStudent), new { id = student.UserId }, new
             {
                 student.UserId,
@@ -144,7 +152,9 @@ namespace OURVLEWebAPI.Controllers
             });
         }
 
-
+        /// <summary>
+        /// Retrieves all courses the authenticated student is enrolled in.
+        /// </summary>
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
@@ -153,9 +163,7 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest("Invalid user.");
             }
 
-            // Get the student with courses included
             var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
-
 
             if (student == null)
             {
@@ -163,17 +171,15 @@ namespace OURVLEWebAPI.Controllers
             }
 
             var course = student.Courses.Select(c => c.CourseName).ToList();
-
-            // Return student's Courses
             return Ok(course);
         }
 
-
+        /// <summary>
+        /// Returns calendar events for the authenticated student on a specific date.
+        /// </summary>
         [HttpGet("calendar/{date}")]
-
         public async Task<ActionResult<Calendarevent>> GetCalendarEventByDate(DateTime date)
         {
-
             if (!TryGetUserId(out int userId))
             {
                 return BadRequest("Invalid user.");
@@ -181,12 +187,12 @@ namespace OURVLEWebAPI.Controllers
 
             var events = await _context.Calendarevents
                 .Where(e => e.DueDate.HasValue && e.DueDate.Value.Date == date.Date)
-                .Where(e => e.Course!.Users.Any(s => s.UserId == userId))
+                .Where(e => e.Course!.Users.Any(s => s.UserId == userId)) // Filter to only student’s courses
                 .Select(e => new
                 {
-                  e.EventId,
-                  e.DueDate,
-                  e.Title
+                    e.EventId,
+                    e.DueDate,
+                    e.Title
                 })
                 .ToListAsync();
 
@@ -196,18 +202,18 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return Ok(events);
-
         }
 
+        /// <summary>
+        /// Allows a student to submit an assignment along with a file upload.
+        /// </summary>
         [HttpPost("assignments/submit")]
-
         public async Task<ActionResult<Assignment>> SubmitAssignment([FromForm] Submitassignment newAssignment, IFormFile file)
         {
             if (newAssignment == null)
             {
                 return BadRequest("Invalid Submit Assignment");
             }
-
 
             if (!ModelState.IsValid)
             {
@@ -219,9 +225,7 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest("Invalid user.");
             }
 
-            // Get the student with courses included
             var student = await _context.Students.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
-
 
             if (student == null)
             {
@@ -235,18 +239,18 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest("No file uploaded.");
             }
 
-            // Save metadata first to get the generated ItemId
+            // Save submission metadata before saving file
             try
             {
                 _context.Submitassignments.Add(newAssignment);
-                await _context.SaveChangesAsync(); // This sets newSectionItem.ItemId
+                await _context.SaveChangesAsync(); // Sets SubmissionId
             }
             catch (Exception ex)
             {
-                return BadRequest("Failed to save section item: " + ex.Message);
+                return BadRequest("Failed to save assignment metadata: " + ex.Message);
             }
 
-
+            // Prepare filename and path for saving file
             var fileName = $"{newAssignment.SubmissionId}{Path.GetExtension(file.FileName)}";
             string folderName = "SubmittedAssignment";
 
@@ -254,12 +258,13 @@ namespace OURVLEWebAPI.Controllers
 
             if (!saved)
             {
+                // Roll back metadata if file save failed
                 _context.Submitassignments.Remove(newAssignment);
                 await _context.SaveChangesAsync();
                 return BadRequest("File upload failed.");
             }
 
-
+            // Return confirmation response
             return Ok(new Submitassignment
             {
                 SubmissionId = newAssignment.SubmissionId,
