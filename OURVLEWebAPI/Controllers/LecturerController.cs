@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using OURVLEWebAPI.Entities;
 using System.Security.Claims;
 
-
 namespace OURVLEWebAPI.Controllers
 {
+    // Restrict access to only users with the "lecturer" role
     [Authorize(Roles = "lecturer")]
     [Route("[controller]")]
     [ApiController]
@@ -15,6 +15,9 @@ namespace OURVLEWebAPI.Controllers
     {
         private readonly OurvleContext _context = context;
 
+        /// <summary>
+        /// Extracts the authenticated user's ID from the claims.
+        /// </summary>
         private bool TryGetUserId(out int userId)
         {
             userId = 0;
@@ -22,6 +25,9 @@ namespace OURVLEWebAPI.Controllers
             return claim != null && int.TryParse(claim.Value, out userId);
         }
 
+        /// <summary>
+        /// Saves an uploaded file to a specified folder with the given file name.
+        /// </summary>
         private async Task<bool> SaveFileAsync(IFormFile file, string folder, string fileName)
         {
             try
@@ -45,6 +51,9 @@ namespace OURVLEWebAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves all calendar events for a specific course.
+        /// </summary>
         public async Task<ActionResult<Calendarevent>> GetCalendarEvent(ulong courseId)
         {
             var calenderEvent = await _context.Calendarevents.Where(ce => ce.CourseId == courseId).ToListAsync();
@@ -55,22 +64,26 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return Ok(calenderEvent);
-
         }
 
+        /// <summary>
+        /// Retrieves all sections created for a specific course.
+        /// </summary>
         public async Task<ActionResult<Section>> GetCreatedSection(int courseId)
         {
             var section = await _context.Sections.Where(s => s.CourseId == courseId).ToListAsync();
 
             if (section.Count == 0)
             {
-                return NotFound("Calendar events not found");
+                return NotFound("Section not found");
             }
 
             return Ok(section);
-
         }
 
+        /// <summary>
+        /// Retrieves all section items created under a specific section.
+        /// </summary>
         public async Task<ActionResult<Sectionitem>> GetCreatedSectionItem(int SectionId)
         {
             var sectionItem = await _context.Sectionitems.Where(ce => ce.SectionId == SectionId).ToListAsync();
@@ -81,10 +94,11 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return Ok(sectionItem);
-
         }
 
-
+        /// <summary>
+        /// Retrieves assignment(s) by assignment ID.
+        /// </summary>
         public async Task<ActionResult<Assignment>> GetCreatedAssignment(int AssignmentId)
         {
             var assignment = await _context.Assignments.Where(a => a.AssignmentId == AssignmentId).ToListAsync();
@@ -97,6 +111,9 @@ namespace OURVLEWebAPI.Controllers
             return Ok(assignment);
         }
 
+        /// <summary>
+        /// Retrieves grading information by submission ID.
+        /// </summary>
         public async Task<ActionResult<Grading>> GetCreatedGrade(int SubmissionId)
         {
             var grade = await _context.Gradings.Where(a => a.SubmissionId == SubmissionId).ToListAsync();
@@ -109,19 +126,18 @@ namespace OURVLEWebAPI.Controllers
             return Ok(grade);
         }
 
-
+        /// <summary>
+        /// Returns the list of courses assigned to the currently authenticated lecturer.
+        /// </summary>
         [HttpGet("course")]
         public async Task<ActionResult<Course>> GetCourse()
         {
-
             if (!TryGetUserId(out int userId))
             {
                 return BadRequest("Invalid user.");
             }
 
-            // Get the lecturer with courses included
             var lecturer = await _context.Lecturers.Include(s => s.Courses).FirstOrDefaultAsync(s => s.UserId == userId);
-
 
             if (lecturer == null)
             {
@@ -129,19 +145,18 @@ namespace OURVLEWebAPI.Controllers
             }
 
             var course = lecturer.Courses.Select(c => c.CourseName).ToList();
-
-            // Return lecturer's Courses
             return Ok(course);
         }
 
+        /// <summary>
+        /// Adds a new calendar event for a course.
+        /// </summary>
         [HttpPost("calendar")]
-
         public async Task<ActionResult<Calendarevent>> AddCalenderEvent([FromBody] Calendarevent newCalenderEvent)
-
         {
             if (newCalenderEvent == null)
             {
-                return BadRequest("Invalid calender data.");
+                return BadRequest("Invalid calendar data.");
             }
 
             if (!ModelState.IsValid)
@@ -160,19 +175,18 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return CreatedAtAction(nameof(GetCalendarEvent), new { id = newCalenderEvent.EventId }, newCalenderEvent);
-
         }
 
+        /// <summary>
+        /// Adds a new section to a course.
+        /// </summary>
         [HttpPost("section")]
-
         public async Task<ActionResult<Section>> AddSection(Section newSection)
         {
-
             if (newSection == null)
             {
                 return BadRequest("Invalid section data.");
             }
-
 
             if (!ModelState.IsValid)
             {
@@ -189,21 +203,19 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ex.Message);
             }
 
-
             return CreatedAtAction(nameof(GetCreatedSection), new { id = newSection.CourseId }, newSection);
-
         }
 
+        /// <summary>
+        /// Adds a new section item (e.g., file upload or content) to a section.
+        /// </summary>
         [HttpPost("section/item")]
-
         public async Task<ActionResult<Sectionitem>> AddSectionitem([FromForm] Sectionitem newSectionItem, IFormFile file)
         {
-
             if (newSectionItem == null)
             {
                 return BadRequest("Invalid section item.");
             }
-                
 
             if (!ModelState.IsValid)
             {
@@ -215,17 +227,15 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest("No file uploaded.");
             }
 
-            // Save metadata first to get the generated ItemId
             try
             {
                 _context.Sectionitems.Add(newSectionItem);
-                await _context.SaveChangesAsync(); // This sets newSectionItem.ItemId
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 return BadRequest("Failed to save section item: " + ex.Message);
             }
-                
 
             var fileName = $"{newSectionItem.ItemId}{Path.GetExtension(file.FileName)}";
             string folderName = "Uploads";
@@ -242,15 +252,16 @@ namespace OURVLEWebAPI.Controllers
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
         }
 
-        [HttpPost ("assignment")]
-
+        /// <summary>
+        /// Adds a new assignment. Ensures the assignment date is not in the past.
+        /// </summary>
+        [HttpPost("assignment")]
         public async Task<ActionResult<Assignment>> AddAssignment(Assignment newAssignment)
         {
             if (newAssignment == null)
             {
                 return BadRequest("Invalid assignment.");
             }
-
 
             if (!ModelState.IsValid)
             {
@@ -261,7 +272,6 @@ namespace OURVLEWebAPI.Controllers
             {
                 return BadRequest("Assignment date cannot be in the past.");
             }
-
 
             try
             {
@@ -274,14 +284,14 @@ namespace OURVLEWebAPI.Controllers
             }
 
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newAssignment.AssignmentId }, newAssignment);
-
         }
 
-        [HttpPost ("assignment/grade")]
-        
+        /// <summary>
+        /// Adds a new grade for a submitted assignment.
+        /// </summary>
+        [HttpPost("assignment/grade")]
         public async Task<ActionResult<Grading>> AddGrade(Grading newGrading)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -297,9 +307,7 @@ namespace OURVLEWebAPI.Controllers
                 return BadRequest(ex.Message);
             }
 
-
             return CreatedAtAction(nameof(GetCreatedGrade), new { submissionId = newGrading.SubmissionId }, newGrading);
         }
     }
-
 }
