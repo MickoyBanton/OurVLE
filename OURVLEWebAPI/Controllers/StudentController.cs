@@ -146,8 +146,6 @@ namespace OURVLEWebAPI.Controllers
             return CreatedAtAction(nameof(GetStudent), new { id = student.UserId }, new
             {
                 student.UserId,
-                student.FirstName,
-                student.LastName,
                 Courses = student.Courses.Select(c => c.CourseName).ToList()
             });
         }
@@ -170,8 +168,13 @@ namespace OURVLEWebAPI.Controllers
                 return NotFound("Student not found.");
             }
 
-            var course = student.Courses.Select(c => c.CourseName).ToList();
-            return Ok(course);
+            var courses = student.Courses.Select(c => new
+            {
+                Id = c.CourseId,
+                CourseName = c.CourseName
+            }).ToList();
+
+            return Ok(courses);
         }
 
         /// <summary>

@@ -8,7 +8,6 @@ using System.Security.Claims;
 
 namespace OURVLEWebAPI.Controllers
 {
-    // Only authenticated users with roles 'lecturer', 'student', or 'admin' can access this controller
     [Authorize(Roles = "lecturer, student, admin")]
     [Route("[controller]")]
     [ApiController]
@@ -17,7 +16,7 @@ namespace OURVLEWebAPI.Controllers
         // Injecting the database context for querying the database
         private readonly OurvleContext _context = context;
 
-        // Endpoint: GET /Courses
+
         // Retrieves all courses in the system
         [HttpGet]
         public async Task<ActionResult<Course>> GetCourse()
@@ -74,6 +73,8 @@ namespace OURVLEWebAPI.Controllers
             return Ok(new { student, lecturer });
         }
 
+
+
         // Endpoint: GET /Courses/{courseId}/sectionitems
         // Retrieves all section items belonging to a specific course
         [HttpGet("{courseId}/sectionitems")]
@@ -99,5 +100,21 @@ namespace OURVLEWebAPI.Controllers
             // Return the list of section items
             return Ok(sectionItems);
         }
+
+
+        [HttpGet("{courseId}/assignment")]
+        public async Task<ActionResult<IEnumerable<Assignment>>> GetCourseAssignment(ulong courseId)
+        {
+            var assignment = await _context.Assignments.Where(s => s.CourseId == courseId).ToListAsync();
+
+            if (assignment == null)
+            {
+                return NotFound("No assignment found for this course.");
+            }
+
+            // Return the list of assignment
+            return Ok(assignment);
+        }
+
     }
 }

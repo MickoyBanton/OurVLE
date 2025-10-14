@@ -120,6 +120,48 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
+    "Method": "GetCourseAssignment",
+    "RelativePath": "Courses/{courseId}/assignment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[OURVLEWebAPI.Entities.Assignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
+    "Method": "GetMember",
+    "RelativePath": "Courses/{courseId}/member",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.UInt64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
     "Method": "GetSectionItemsByCourse",
     "RelativePath": "Courses/{courseId}/sectionitems",
     "HttpMethod": "GET",
@@ -143,22 +185,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "OURVLEWebAPI.Controllers.CoursesController",
-    "Method": "GetMember",
-    "RelativePath": "Courses/member/{courseId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "courseId",
-        "Type": "System.UInt64",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
@@ -390,6 +416,22 @@
   },
   {
     "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "DownloadPdf",
+    "RelativePath": "Lecturer/download/{fileName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fileName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
     "Method": "AddSection",
     "RelativePath": "Lecturer/section",
     "HttpMethod": "POST",
@@ -481,6 +523,32 @@
     ]
   },
   {
+    "ContainingType": "OURVLEWebAPI.Controllers.LecturerController",
+    "Method": "GetAllSubmittedAssignment",
+    "RelativePath": "Lecturer/submitted/assignments/{assignmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assignmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[OURVLEWebAPI.Entities.Submitassignment, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
     "Method": "AddStudent",
     "RelativePath": "Student",
@@ -535,7 +603,7 @@
   {
     "ContainingType": "OURVLEWebAPI.Controllers.StudentController",
     "Method": "SubmitAssignment",
-    "RelativePath": "Student/assignment",
+    "RelativePath": "Student/assignments/submit",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -864,26 +932,5 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "OURVLEWebAPI.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[OURVLEWebAPI.WeatherForecast, OURVLEWebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetWeatherForecast"
   }
 ]

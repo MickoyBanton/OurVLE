@@ -144,7 +144,12 @@ namespace OURVLEWebAPI.Controllers
                 return NotFound("Lecturer not found.");
             }
 
-            var course = lecturer.Courses.Select(c => c.CourseName).ToList();
+            var course = lecturer.Courses.Select(c => new
+            {
+                Id = c.CourseId,
+                CourseName = c.CourseName
+            }).ToList();
+
             return Ok(course);
         }
 
@@ -286,6 +291,67 @@ namespace OURVLEWebAPI.Controllers
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newAssignment.AssignmentId }, newAssignment);
         }
 
+
+        /// <summary>
+        /// Gets a list of all submitted assignment.
+        /// </summary>
+        [HttpGet("submitted/assignments/{assignmentId}")]
+        public async Task<ActionResult<IEnumerable<Submitassignment>>> GetAllSubmittedAssignment(int assignmentId)
+        {
+            if (!TryGetUserId(out int userId))
+            {
+                return BadRequest("Invalid user.");
+            }
+
+            // Retrieve all submissions for this assignment
+            var submittedAssignments = await _context.Submitassignments
+                .Where(a => a.AssignmentId == assignmentId)
+                .ToListAsync();
+
+            if (submittedAssignments == null || submittedAssignments.Count == 0)
+                return NotFound("No submissions found for this assignment.");
+
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "SubmittedAssignment");
+
+            // Filter out missing files
+            var validSubmissions = new List<Submitassignment>();
+
+            foreach (var submission in submittedAssignments)
+            {
+                string fileName = $"{submission.SubmissionId}.pdf"; // adjust extension if needed
+                string filePath = Path.Combine(folderPath, fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    validSubmissions.Add(submission);
+                }
+                else
+                {
+                    // Optionally log or clean up invalid DB entries
+                    Console.WriteLine($"Missing file for submission: {submission.SubmissionId}");
+                }
+            }
+
+            // If none are valid, return NotFound
+            if (validSubmissions.Count == 0)
+                return NotFound("No valid submissions found (files missing).");
+
+            return Ok(validSubmissions);
+        }
+
+        [HttpGet("download/{fileName}")]
+        public IActionResult DownloadPdf(string fileName)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", fileName);
+            if (!System.IO.File.Exists(filePath))
+                return NotFound();
+
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            return File(fileBytes, "application/pdf", fileName);
+        }
+
+
+
         /// <summary>
         /// Adds a new grade for a submitted assignment.
         /// </summary>
@@ -309,5 +375,7 @@ namespace OURVLEWebAPI.Controllers
 
             return CreatedAtAction(nameof(GetCreatedGrade), new { submissionId = newGrading.SubmissionId }, newGrading);
         }
+
+
     }
 }
