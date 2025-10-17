@@ -78,28 +78,52 @@ namespace OURVLEWebAPI.Controllers
         // Endpoint: GET /Courses/{courseId}/sectionitems
         // Retrieves all section items belonging to a specific course
         [HttpGet("{courseId}/sectionitems")]
-        public async Task<ActionResult<IEnumerable<Sectionitem>>> GetSectionItemsByCourse(int courseId)
+        public async Task<ActionResult<IEnumerable<object>>> GetSectionItemsByCourse(int courseId)
         {
-            // Step 1: Get all section IDs that belong to the specified course
-            var sectionIds = await _context.Sections
+            // Step 1: Get all sections for the specified course
+            var sections = await _context.Sections
                 .Where(s => s.CourseId == courseId)
-                .Select(s => s.SectionId)
+                .Select(s => new
+                {
+                    s.SectionId,
+                    s.SectionName
+                })
                 .ToListAsync();
 
-            // Step 2: Find all section items whose SectionId is in the list above
+            if (sections == null || !sections.Any())
+                return NotFound("No sections found for this course.");
+
+            // Step 2: Get all section items related to those sections
+            var sectionIds = sections.Select(s => s.SectionId).ToList();
+
             var sectionItems = await _context.Sectionitems
                 .Where(si => sectionIds.Contains(si.SectionId.Value))
                 .ToListAsync();
 
-            // If no section items are found, return 404
             if (sectionItems == null || !sectionItems.Any())
-            {
                 return NotFound("No section items found for this course.");
-            }
 
-            // Return the list of section items
-            return Ok(sectionItems);
+            // Step 3: Perform the join in memory (EF-compatible)
+            var result = sectionItems
+                .Join(
+                    sections,
+                    si => si.SectionId,
+                    s => s.SectionId,
+                    (si, s) => new
+                    {
+                        si.ItemId,
+                        si.SectionId,
+                        si.SectionItem,
+                        si.FileType,
+                        SectionName = s.SectionName
+                    }
+                )
+                .ToList();
+
+            return Ok(result);
         }
+
+
 
 
         [HttpGet("{courseId}/assignment")]

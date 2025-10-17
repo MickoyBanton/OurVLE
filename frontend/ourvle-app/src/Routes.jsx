@@ -13,6 +13,7 @@ import CalendarEventForm from "./pages/CalendarEventForm";
 import AssignmentForm from "./pages/AssignmentForm";
 import ViewSubmittedAssignment from "./pages/ViewSubmittedAssignment";
 import CreateCourse from "./pages/CreateCourse";
+import CreateSection from "./pages/CreateSection";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -134,6 +135,17 @@ function AppRoutes() {
           <ProtectedRoute
             element={CreateCourse}
             requiredRoles={["admin"]}
+          />
+        }
+      />
+
+      {/* CreateSection Page */}
+      <Route
+        path="/create-section/:code"
+        element={
+          <ProtectedRoute
+            element={CreateSection}
+            requiredRoles={["lecturer"]}
           />
         }
       />

@@ -30,7 +30,6 @@ function StudentDashboard() {
 
         const data = await res.json();
         setCourses(data);
-        console.log(data);
       } catch (err) {
         console.error(err.message);
       } finally {

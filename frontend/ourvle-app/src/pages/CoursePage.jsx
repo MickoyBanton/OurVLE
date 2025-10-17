@@ -17,7 +17,7 @@ function CoursePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = code;
+    document.title = `CourseId: ${code}`;
 
     const token = localStorage.getItem("token");
 
@@ -64,10 +64,13 @@ function CoursePage() {
         });
         if (!res.ok) throw new Error("Failed to fetch section items");
         setSectionItems(await res.json());
+        
       } catch (err) {
         console.error(err.message);
       }
     };
+
+    console.log(sectionItems);
 
     fetchMembers();
     fetchCalendarEvents();
@@ -204,7 +207,7 @@ function CoursePage() {
                 {events.map((event) => (
                 <li
                    key={event.eventId}
-                  className="p-3 border rounded mb-2 shadow-sm bg-white"
+                   className="p-3 border rounded mb-2 shadow-sm bg-white"
                 >
                     <p className="font-semibold">{event.title}</p>
                     <p className="text-gray-500">
@@ -217,35 +220,71 @@ function CoursePage() {
         </div>
       )}
 
+      {
+        /**[
+    {
+        "itemId": 1,
+        "sectionId": 1,
+        "sectionItem": "Chapter Notes PDF",
+        "fileType": "Files",
+        "section": null
+    }
+      ]**/
+      }
 
         {activeTab === "sectionItems" && (
-          <div>
-            <h2 className="text-xl font-bold mb-4">Section Items</h2>
-            {sectionItems.length === 0 ? (
-              <p>No section items available.</p>
-            ) : (
-              <>
-                {["Files", "Links", "Slides"].map((type) => (
-                  <div key={type} className="mb-6">
-                    <h3 className="text-lg font-semibold mb-2">{type}</h3>
-                    <ul>
-                      {sectionItems
-                        .filter((item) => item.fileType === type)
-                        .map((item) => (
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold">Section Items</h2>
+
+                {/* Button only visible to lecturers */}
+                {user.role === "lecturer" && (
+                  <button
+                    onClick={() => navigate(`/create-section/${code}`)}
+                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 shadow"
+                  >
+                    ➕ Create Section
+                  </button>
+                )}
+              </div>
+
+              {sectionItems.length === 0 ? (
+                <p>No section items available.</p>
+              ) : (
+                <>
+                  {/** Group items by sectionName **/}
+                  {Object.entries(
+                    sectionItems.reduce((groups, item) => {
+                      const section = item.sectionName || "Uncategorized";
+                      if (!groups[section]) groups[section] = [];
+                      groups[section].push(item);
+                      return groups;
+                    }, {})
+                  ).map(([sectionName, items]) => (
+                    <div key={sectionName} className="mb-6">
+                      <h3 className="text-lg font-semibold mb-2 text-blue-600">
+                        {sectionName}
+                      </h3>
+                      <ul>
+                        {items.map((item) => (
                           <li
                             key={item.itemId}
                             className="p-3 border rounded mb-2 shadow-sm bg-white"
                           >
-                            {item.sectionItem}
+                            <p className="font-medium">{item.sectionItem}</p>
+                            <p className="text-sm text-gray-500">Type: {item.fileType}</p>
                           </li>
                         ))}
-                    </ul>
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
-        )}
+                      </ul>
+                    </div>
+                  ))}
+                </>
+              )}
+            </div>
+          )}
+
+
+
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CreateCourse() {
@@ -14,7 +14,7 @@ function CreateCourse() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://localhost:7214/courses/create", {
+      const res = await fetch("https://localhost:7214/admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +22,7 @@ function CreateCourse() {
         },
         body: JSON.stringify({
           CourseName: courseName,
-          LecturerId: user?.userId, // automatically assign the logged-in lecturer
+          LecturerId: lecturerId, 
         }),
       });
 
@@ -69,7 +69,8 @@ function CreateCourse() {
             value={lecturerId}
             onChange={(e) => setLecturerId(e.target.value)}
             required
-            className="w-full border px-3 py-2 rounded bg-gray-100 cursor-not-allowed"
+            className="w-full border px-3 py-2 rounded"
+            placeholder="Enter Lecturer Id"
           />
         </div>
 
