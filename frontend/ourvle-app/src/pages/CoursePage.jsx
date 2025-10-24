@@ -239,12 +239,23 @@ function CoursePage() {
 
                 {/* Button only visible to lecturers */}
                 {user.role === "lecturer" && (
-                  <button
-                    onClick={() => navigate(`/create-section/${code}`)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 shadow"
-                  >
-                    ➕ Create Section
-                  </button>
+                  <>
+
+                      <button
+                        onClick={() => navigate(`/create-section/${code}`)}
+                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 shadow"
+                      >
+                        ➕ Create Section
+                      </button>
+
+                      <button
+                        onClick={() => navigate(`/create-section-item/${code}`)}
+                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 shadow"
+                      >
+                        ➕ Add Section Item
+                      </button>
+
+                  </>
                 )}
               </div>
 

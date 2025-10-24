@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function CreateSection() {
-  const { code } = useParams(); // courseId from URL
+  const { code } = useParams();
   const navigate = useNavigate();
   const [sectionName, setSectionName] = useState("");
   const [message, setMessage] = useState("");
@@ -35,13 +35,13 @@ function CreateSection() {
 
       setMessage("✅ Section created successfully!");
 
-      // Redirect after short delay
       setTimeout(() => navigate(`/courses/${code}`), 1500);
     } catch (err) {
       setMessage(`❌ ${err.message}`);
     }
   };
 
+  
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-10">
       <h2 className="text-2xl font-bold mb-4 text-center">Create New Section</h2>

@@ -257,6 +257,26 @@ namespace OURVLEWebAPI.Controllers
             return CreatedAtAction(nameof(GetCreatedSectionItem), new { sectionId = newSectionItem.SectionId }, newSectionItem);
         }
 
+
+        [HttpGet("sections/{courseId}")]
+        public async Task<ActionResult<IEnumerable<object>>> GetSectionsByCourse(int courseId)
+        {
+            var sections = await _context.Sections
+                .Where(s => s.CourseId == courseId)
+                .Select(s => new
+                {
+                    s.SectionId,
+                    s.SectionName
+                })
+                .ToListAsync();
+
+            if (!sections.Any())
+                return NotFound("No sections found for this course.");
+
+            return Ok(sections);
+        }
+
+
         /// <summary>
         /// Adds a new assignment. Ensures the assignment date is not in the past.
         /// </summary>

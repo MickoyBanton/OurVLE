@@ -14,6 +14,7 @@ import AssignmentForm from "./pages/AssignmentForm";
 import ViewSubmittedAssignment from "./pages/ViewSubmittedAssignment";
 import CreateCourse from "./pages/CreateCourse";
 import CreateSection from "./pages/CreateSection";
+import CreateSectionItem from "./pages/CreateSectionItem";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -145,6 +146,18 @@ function AppRoutes() {
         element={
           <ProtectedRoute
             element={CreateSection}
+            requiredRoles={["lecturer"]}
+          />
+        }
+      />
+
+      
+      {/* CreateSectionItem Page */}
+      <Route
+        path="/create-section-item/:code"
+        element={
+          <ProtectedRoute
+            element={CreateSectionItem}
             requiredRoles={["lecturer"]}
           />
         }
