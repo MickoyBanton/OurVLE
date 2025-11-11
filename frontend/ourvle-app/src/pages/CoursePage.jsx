@@ -221,15 +221,9 @@ function CoursePage() {
       )}
 
       {
-        /**[
-    {
-        "itemId": 1,
-        "sectionId": 1,
-        "sectionItem": "Chapter Notes PDF",
-        "fileType": "Files",
-        "section": null
-    }
-      ]**/
+
+
+
       }
 
         {activeTab === "sectionItems" && (

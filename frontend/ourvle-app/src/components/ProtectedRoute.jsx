@@ -1,10 +1,13 @@
-// src/components/ProtectedRoute.jsx
 import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function ProtectedRoute({ element: Component, requiredRoles }) {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading authentication...</p>;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
